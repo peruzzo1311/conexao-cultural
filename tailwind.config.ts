@@ -40,10 +40,8 @@ module.exports = {
           '900': '#1a408e',
           '950': '#152956',
         },
-        secondary: {
-          DEFAULT: 'hsl(var(--secondary))',
-          foreground: 'hsl(var(--secondary-foreground))',
-        },
+        orange: '#F26430',
+        pink: '#FE95FD',
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',
           foreground: 'hsl(var(--destructive-foreground))',
