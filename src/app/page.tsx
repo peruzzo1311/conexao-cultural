@@ -1,37 +1,45 @@
 import imageCard from '@/assets/image-card.jpg'
 import Appbar from '@/components/appbar'
-import FeaturedEvents from '@/components/featured-events'
+import FeaturedEvents from '@/components/carousel/featured-events'
+import NearbyEvents from '@/components/carousel/nearby-events'
+
 import Filter from '@/components/filter'
-import NearbyEvents from '@/components/nearby-events'
+import Footer from '@/components/footer'
 
 export default async function Home() {
   return (
-    <main className='p-2 md:px-4 h-screen'>
+    <section className='min-h-screen flex flex-col gap-8'>
       <Appbar />
 
-      <div className='flex md:hidden p-2'>
-        <Filter />
-      </div>
+      <article className='container'>
+        <div className='flex md:hidden'>
+          <Filter />
+        </div>
 
-      <div className='w-full mt-8'>
-        <NearbyEvents
-          items={[
-            imageCard.src,
-            imageCard.src,
-            imageCard.src,
-            imageCard.src,
-            imageCard.src,
-            imageCard.src,
-            imageCard.src,
-            imageCard.src,
-            imageCard.src,
-          ]}
-        />
-      </div>
+        <div className='w-full'>
+          <NearbyEvents
+            items={[
+              imageCard.src,
+              imageCard.src,
+              imageCard.src,
+              imageCard.src,
+              imageCard.src,
+              imageCard.src,
+              imageCard.src,
+              imageCard.src,
+              imageCard.src,
+            ]}
+          />
+        </div>
 
-      <div className='mt-16'>
-        <FeaturedEvents items={[imageCard.src, imageCard.src, imageCard.src]} />
-      </div>
-    </main>
+        <div className='mt-8 md:my-16'>
+          <FeaturedEvents
+            items={[imageCard.src, imageCard.src, imageCard.src]}
+          />
+        </div>
+      </article>
+
+      <Footer />
+    </section>
   )
 }

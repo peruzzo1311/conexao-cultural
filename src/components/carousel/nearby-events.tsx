@@ -1,45 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
 'use client'
 
-import { Autoplay, Pagination } from 'swiper/modules'
-import { Swiper, SwiperSlide, useSwiper } from 'swiper/react'
+import { Pagination } from 'swiper/modules'
+import { Swiper, SwiperSlide } from 'swiper/react'
 
-import { ArrowLeft, ArrowUpRight } from 'lucide-react'
+import { ArrowUpRight } from 'lucide-react'
 import 'swiper/css'
 import 'swiper/css/pagination'
-import { Button } from './ui/button'
-import { Card, CardContent, CardFooter } from './ui/card'
-
-const PrevSlide = () => {
-  const swiper = useSwiper()
-
-  return (
-    <Button
-      size={'icon'}
-      variant={'ghost'}
-      className='z-50 hover:bg-primary-50 hover:ring-1 hover:ring-primary-200 active:scale-90 transition'
-    >
-      <ArrowLeft className='w-6 h-6' onClick={() => swiper.slidePrev()} />
-    </Button>
-  )
-}
-
-const NextSlide = () => {
-  const swiper = useSwiper()
-
-  return (
-    <Button
-      size={'icon'}
-      variant={'ghost'}
-      className='z-50 hover:bg-primary-50 hover:ring-1 hover:ring-primary-200 active:scale-90 transition'
-    >
-      <ArrowLeft
-        className='w-6 h-6 transform rotate-180'
-        onClick={() => swiper.slideNext()}
-      />
-    </Button>
-  )
-}
+import { Card, CardContent, CardFooter } from '../ui/card'
+import CarouselTitle from './title'
 
 export default function NearbyEvents({ items }: { items: string[] }) {
   return (
@@ -49,11 +18,7 @@ export default function NearbyEvents({ items }: { items: string[] }) {
         clickable: true,
         dynamicBullets: true,
       }}
-      autoplay={{
-        delay: 3000,
-        pauseOnMouseEnter: true,
-      }}
-      modules={[Pagination, Autoplay]}
+      modules={[Pagination]}
       breakpoints={{
         768: {
           slidesPerView: 2,
@@ -69,17 +34,7 @@ export default function NearbyEvents({ items }: { items: string[] }) {
         },
       }}
     >
-      <div className='flex justify-between items-center absolute top-0 left-0 w-full mt-1'>
-        <span className='text-lg font-medium'>
-          Descubra eventos na sua região
-        </span>
-
-        <div className='hidden md:flex justify-center items-center gap-2 pr-4'>
-          <PrevSlide />
-
-          <NextSlide />
-        </div>
-      </div>
+      <CarouselTitle title='Descubra eventos na sua região' />
 
       {items.map((item, index) => (
         <SwiperSlide key={index} className='mt-14'>

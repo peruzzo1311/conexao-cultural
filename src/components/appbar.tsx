@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import logo from '@/assets/logo.png'
 import { Button } from '@/components/ui/button'
 import { Menu, Search } from 'lucide-react'
@@ -7,7 +6,7 @@ import { Input } from './ui/input'
 
 export default function Appbar() {
   return (
-    <header className='w-full flex justify-between items-center py-2'>
+    <header className='w-full flex justify-between items-center p-4'>
       <div>
         <Image
           src={logo.src}

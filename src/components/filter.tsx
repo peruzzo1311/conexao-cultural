@@ -12,31 +12,12 @@ import {
 import 'swiper/css'
 import 'swiper/css/navigation'
 import { Swiper, SwiperSlide, useSwiper } from 'swiper/react'
-
-const SlidePrevButton = ({ className = '' }: { className?: string }) => {
-  const swiper = useSwiper()
-
-  return (
-    <div onClick={() => swiper.slidePrev()} className={className}>
-      <ChevronLeft className='text-black w-6 h-6' />
-    </div>
-  )
-}
-
-const SlideNextButton = ({ className = '' }: { className?: string }) => {
-  const swiper = useSwiper()
-
-  return (
-    <div onClick={() => swiper.slideNext()} className={className}>
-      <ChevronRight className='text-black w-6 h-6' />
-    </div>
-  )
-}
+import { NextSlideMobile, PrevSlideMobile } from './carousel/carousel-control'
 
 export default function Filter() {
   return (
-    <Swiper slidesPerView={3} className='!px-6'>
-      <SlidePrevButton className='absolute left-0 top-0 z-50 h-16 flex justify-center items-center' />
+    <Swiper slidesPerView={3} className='!px-6 mb-8'>
+      <PrevSlideMobile className='absolute left-0 top-0 z-50 h-16 flex justify-center items-center' />
 
       <SwiperSlide>
         <div className='flex justify-center items-center flex-col gap-1'>
@@ -78,7 +59,7 @@ export default function Filter() {
         </div>
       </SwiperSlide>
 
-      <SlideNextButton className='absolute right-0 top-0 z-50 h-16 flex justify-center items-center' />
+      <NextSlideMobile className='absolute right-0 top-0 z-50 h-16 flex justify-center items-center' />
     </Swiper>
   )
 }
