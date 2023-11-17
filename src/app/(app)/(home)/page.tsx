@@ -1,33 +1,42 @@
 import imageCard from '@/assets/image-card.jpg'
-import FeaturedEvents from '@/components/carousel/featured-events'
-import NearbyEvents from '@/components/carousel/nearby-events'
-import Filter from '@/components/filter'
+import Carousel from '@/components/carousel'
 
 export default async function Home() {
+  const items = [
+    imageCard.src,
+    imageCard.src,
+    imageCard.src,
+    imageCard.src,
+    imageCard.src,
+    imageCard.src,
+    imageCard.src,
+    imageCard.src,
+  ]
   return (
     <section className='container'>
-      <div className='flex md:hidden'>
-        <Filter />
-      </div>
-
       <div className='w-full'>
-        <NearbyEvents
-          items={[
-            imageCard.src,
-            imageCard.src,
-            imageCard.src,
-            imageCard.src,
-            imageCard.src,
-            imageCard.src,
-            imageCard.src,
-            imageCard.src,
-            imageCard.src,
-          ]}
+        <Carousel
+          title='Descubra eventos na sua região'
+          breakpoints={{
+            768: {
+              slidesPerView: 2,
+              slidesPerGroup: 1,
+            },
+            1000: {
+              slidesPerView: 3,
+              slidesPerGroup: 2,
+            },
+            1300: {
+              slidesPerView: 4,
+              slidesPerGroup: 2,
+            },
+          }}
+          items={items}
         />
       </div>
 
       <div className='my-8 md:my-16'>
-        <FeaturedEvents items={[imageCard.src, imageCard.src, imageCard.src]} />
+        <Carousel title='Eventos em destaque' items={items} featured />
       </div>
     </section>
   )

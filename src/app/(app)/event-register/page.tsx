@@ -1,6 +1,6 @@
 import imageCard from '@/assets/image-card.jpg'
+import Carousel from '@/components/carousel'
 import NewEvents from '@/components/carousel/new-events'
-import PublishedEvents from '@/components/carousel/published-events'
 
 export default function EventRegisterPage() {
   return (
@@ -22,7 +22,22 @@ export default function EventRegisterPage() {
       </div>
 
       <div className='w-full'>
-        <PublishedEvents
+        <Carousel
+          title='Eventos publicados'
+          breakpoints={{
+            768: {
+              slidesPerView: 2,
+              slidesPerGroup: 1,
+            },
+            1000: {
+              slidesPerView: 3,
+              slidesPerGroup: 2,
+            },
+            1300: {
+              slidesPerView: 4,
+              slidesPerGroup: 2,
+            },
+          }}
           items={[
             imageCard.src,
             imageCard.src,
