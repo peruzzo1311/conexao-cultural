@@ -1,6 +1,8 @@
 import { cn } from '@/lib/utils'
+import { ptBR } from '@clerk/localizations'
+import { ClerkProvider } from '@clerk/nextjs'
 import type { Metadata } from 'next'
-import { Epilogue as FontSans } from 'next/font/google'
+import { Inter as FontSans } from 'next/font/google'
 import { ReactNode } from 'react'
 import './globals.css'
 
@@ -20,13 +22,18 @@ type RootLayoutProps = {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang='pt-BR' suppressHydrationWarning>
-      <head />
-      <body
-        className={cn('bg-background font-sans antialiased', fontSans.variable)}
-      >
-        {children}
-      </body>
-    </html>
+    <ClerkProvider localization={ptBR}>
+      <html lang='pt-BR' suppressHydrationWarning>
+        <head />
+        <body
+          className={cn(
+            'bg-background font-sans antialiased',
+            fontSans.variable
+          )}
+        >
+          {children}
+        </body>
+      </html>
+    </ClerkProvider>
   )
 }

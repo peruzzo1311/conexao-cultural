@@ -1,16 +1,16 @@
 'use client'
 
-import { Pagination } from 'swiper/modules'
-import { Swiper, SwiperSlide } from 'swiper/react'
-
-import { ArrowUpRight } from 'lucide-react'
 import 'swiper/css'
 import 'swiper/css/pagination'
+
+import { ArrowUpRight } from 'lucide-react'
+import { Pagination } from 'swiper/modules'
+import { Swiper, SwiperSlide } from 'swiper/react'
 import GroupTag from '../group-tag'
 import { Card, CardContent, CardFooter } from '../ui/card'
 import CarouselTitle from './title'
 
-export default function NearbyEvents({ items }: { items: string[] }) {
+export default function PublishedEvents({ items }: { items: string[] }) {
   return (
     <Swiper
       slidesPerView={1}
@@ -34,11 +34,11 @@ export default function NearbyEvents({ items }: { items: string[] }) {
         },
       }}
     >
-      <CarouselTitle title='Descubra eventos na sua região' />
+      <CarouselTitle title='Eventos publicados' />
 
       {items.map((item, index) => (
         <SwiperSlide key={index} className='mt-14'>
-          <Card className='rounded-xl overflow-hidden relative w-[90%] md:w-[300px] min-w-[300px] mx-auto cursor-pointer'>
+          <Card className='rounded-xl overflow-hidden relative w-[90%] md:w-[300px] min-w-[300px] mx-auto'>
             <CardContent
               style={{
                 backgroundImage: `url(${item})`,
