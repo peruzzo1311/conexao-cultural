@@ -22,7 +22,7 @@ export default function AppbarNavigation() {
             variant={'ghost'}
             size={'sm'}
             className={cn(
-              'gap-1 p-2 hover:bg-primary-100 active:scale-90 transition text-base px-4'
+              'gap-1 p-2 hover:text-orange hover:bg-transparent text-base px-4'
             )}
           >
             Filtros
@@ -34,7 +34,7 @@ export default function AppbarNavigation() {
           variant={'ghost'}
           size={'sm'}
           className={cn(
-            'hover:bg-primary-100 active:scale-95 transition text-base px-4',
+            'hover:text-orange hover:bg-transparent text-base px-4',
             pathname === '/about' &&
               'text-orange font-semibold hover:bg-transparent hover:text-orange'
           )}
@@ -59,9 +59,9 @@ export default function AppbarNavigation() {
             variant={'ghost'}
             size={'sm'}
             className={cn(
-              'hover:bg-primary-100 active:scale-95 transition text-base px-4',
+              'hover:text-orange hover:bg-transparent text-base px-4',
               pathname === '/register-event' &&
-                'text-orange font-semibold hover:bg-transparent hover:text-orange'
+                'text-orange font-semibold hover:bg-transparent hover:text-orange '
             )}
           >
             <Link href={'/event-register'}>Cadastrar eventos</Link>
