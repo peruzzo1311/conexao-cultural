@@ -42,18 +42,7 @@ export default function AppbarNavigation() {
           <Link href={'/about'}>Sobre</Link>
         </Button>
 
-        {pathname === '/event-register' && (
-          <UserButton
-            afterSignOutUrl='/'
-            appearance={{
-              elements: {
-                avatarBox: 'h-[40px] w-[40px]',
-              },
-            }}
-          />
-        )}
-
-        {pathname !== '/event-register' && (
+        {pathname !== '/my-account' && (
           <Button
             asChild
             variant={'ghost'}
@@ -64,8 +53,32 @@ export default function AppbarNavigation() {
                 'text-orange font-semibold hover:bg-transparent hover:text-orange '
             )}
           >
+            <Link href={'/my-account'}>Cadastrar eventos</Link>
+          </Button>
+        )}
+
+        {pathname === '/my-account' && (
+          <Button
+            asChild
+            variant={'ghost'}
+            size={'sm'}
+            className={cn(
+              'hover:text-orange hover:bg-transparent text-base px-4'
+            )}
+          >
             <Link href={'/event-register'}>Cadastrar eventos</Link>
           </Button>
+        )}
+
+        {pathname === '/my-account' && (
+          <UserButton
+            afterSignOutUrl='/'
+            appearance={{
+              elements: {
+                avatarBox: 'h-[40px] w-[40px]',
+              },
+            }}
+          />
         )}
       </div>
 
