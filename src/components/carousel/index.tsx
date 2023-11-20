@@ -84,7 +84,10 @@ export default function Carousel({
         {featured &&
           items.map((item, index) => (
             <SwiperSlide key={index} className='mt-14'>
-              <Card className='md:flex rounded-2xl overflow-hidden relative w-[90%] md:w-full md:h-[500px] mx-auto'>
+              <Card
+                className='md:flex rounded-2xl overflow-hidden relative w-[90%] md:w-full md:h-[500px] mx-auto'
+                onClick={() => setOpenModal(true)}
+              >
                 <CardContent
                   style={{
                     backgroundImage: `url(${item})`,
