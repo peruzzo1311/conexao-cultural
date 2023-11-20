@@ -12,6 +12,7 @@ export default async function Home() {
     imageCard.src,
     imageCard.src,
   ]
+
   return (
     <section className='container'>
       <div className='w-full'>
