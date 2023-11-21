@@ -1,9 +1,11 @@
 import GroupTag from '@/components/group-tag'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { initialProfile } from '@/lib/initial-profile'
-import { ArrowUpRight, Check, X } from 'lucide-react'
+import { ArrowUpRight, Check, Plus, X } from 'lucide-react'
 
 import banner from '@/assets/image-card.jpg'
+import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 import { Suspense } from 'react'
 
 export default async function MyAccount() {
@@ -12,7 +14,7 @@ export default async function MyAccount() {
   return (
     <Suspense>
       <section className='container flex-1 flex flex-col'>
-        <h1 className='text-xl font-semibold mb-4'>Seus eventos</h1>
+        <h1 className='text-lg font-semibold mb-4'>Seus eventos</h1>
 
         <div className='flex-1 columns-1 sm:columns-2 lg:columns-3 xl:columns-4'>
           {Array(8)
@@ -58,6 +60,16 @@ export default async function MyAccount() {
               </Card>
             ))}
         </div>
+
+        <Button
+          asChild
+          size={'icon'}
+          className='fixed bottom-6 right-6 z-50 rounded-full w-16 h-16 shadow md:hidden'
+        >
+          <Link href={'/event-register'}>
+            <Plus className='w-8 h-8 text-white' />
+          </Link>
+        </Button>
       </section>
     </Suspense>
   )

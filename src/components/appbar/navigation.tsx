@@ -2,7 +2,6 @@
 
 import { cn } from '@/lib/utils'
 import { UserButton } from '@clerk/nextjs'
-import { Filter, Menu } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
@@ -11,7 +10,6 @@ import Sidebar from './sidebar'
 
 export default function AppbarNavigation() {
   const [open, setOpen] = useState(false)
-
   const pathname = usePathname()
 
   return (
@@ -70,31 +68,14 @@ export default function AppbarNavigation() {
           </Button>
         )}
 
-        {pathname === '/my-account' && (
-          <UserButton
-            afterSignOutUrl='/'
-            appearance={{
-              elements: {
-                avatarBox: 'h-[40px] w-[40px]',
-              },
-            }}
-          />
-        )}
-      </div>
-
-      <div className='flex md:hidden'>
-        <Button className='md:hidden' variant={'ghost'} size={'icon'}>
-          <Filter className='w-[24px] h-[24px]' />
-        </Button>
-
-        <Button
-          className='md:hidden'
-          variant={'ghost'}
-          size={'icon'}
-          onClick={() => setOpen(true)}
-        >
-          <Menu className='w-[32px] h-[32px]' />
-        </Button>
+        <UserButton
+          afterSignOutUrl='/'
+          appearance={{
+            elements: {
+              avatarBox: 'h-[40px] w-[40px]',
+            },
+          }}
+        />
       </div>
 
       <Sidebar open={open} onOpenChange={setOpen} />

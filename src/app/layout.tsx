@@ -4,7 +4,13 @@ import { ClerkProvider } from '@clerk/nextjs'
 import type { Metadata } from 'next'
 import { Inter as FontSans } from 'next/font/google'
 import { ReactNode } from 'react'
+
 import './globals.css'
+
+import { NextSSRPlugin } from '@uploadthing/react/next-ssr-plugin'
+import { extractRouterConfig } from 'uploadthing/server'
+
+import { ourFileRouter } from '@/app/api/uploadthing/core'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -31,6 +37,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
             fontSans.variable
           )}
         >
+          <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
+
           {children}
         </body>
       </html>
