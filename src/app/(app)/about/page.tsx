@@ -5,7 +5,7 @@ import logo from '@/assets/icon-about.png'
 
 export default function AboutPage() {
   return (
-    <div className='flex-1 pb-12 lg:pt-12 flex flex-col lg:flex-row lg:container lg:px-12'>
+    <div className='flex-1 pb-12 lg:pt-12 flex flex-col md:flex-row lg:container lg:px-12'>
       <div className='bg-primary-300 overflow-hidden p-12 w-full py-12 lg:rounded-s-3xl flex items-center justify-center'>
         <img src={logo.src} alt='Conexão Cultural' className='w-[75%]' />
       </div>

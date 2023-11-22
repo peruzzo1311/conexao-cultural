@@ -4,12 +4,9 @@ import { cn } from '@/lib/utils'
 import { UserButton } from '@clerk/nextjs'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useState } from 'react'
 import { Button } from '../ui/button'
-import Sidebar from './sidebar'
 
-export default function AppbarNavigation() {
-  const [open, setOpen] = useState(false)
+export default function Navigation() {
   const pathname = usePathname()
 
   return (
@@ -51,7 +48,7 @@ export default function AppbarNavigation() {
                 'text-orange font-semibold hover:bg-transparent hover:text-orange '
             )}
           >
-            <Link href={'/my-account'}>Cadastrar eventos</Link>
+            <Link href={'/my-account'}>Meus eventos</Link>
           </Button>
         )}
 
@@ -64,7 +61,7 @@ export default function AppbarNavigation() {
               'hover:text-orange hover:bg-transparent text-base px-4'
             )}
           >
-            <Link href={'/event-register'}>Cadastrar eventos</Link>
+            <Link href={'/event-register'}>Criar novo evento</Link>
           </Button>
         )}
 
@@ -77,8 +74,6 @@ export default function AppbarNavigation() {
           }}
         />
       </div>
-
-      <Sidebar open={open} onOpenChange={setOpen} />
     </>
   )
 }

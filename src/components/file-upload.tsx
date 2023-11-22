@@ -25,14 +25,14 @@ export default function FileUpload({
           fill
           src={value}
           quality={100}
-          objectFit='contain'
+          objectFit='cover'
           alt='Upload'
           className='rounded-xl'
         />
 
         <button
           onClick={() => onChange('')}
-          className='absolute top-0 right-0 p-1 text-white rounded-full shadow-sm bg-rose-500'
+          className='absolute -top-2 -right-2 p-1 text-white rounded-full shadow-sm bg-rose-500'
           type='button'
         >
           <X className='w-4 h-4' />

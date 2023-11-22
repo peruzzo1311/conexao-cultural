@@ -19,10 +19,17 @@ import {
 import { Textarea } from '@/components/ui/textarea'
 import { cn } from '@/lib/utils'
 import { format } from 'date-fns'
-import { Calendar as CalendarIcon } from 'lucide-react'
+import { Calendar as CalendarIcon, Check, ChevronsUpDown } from 'lucide-react'
 import InputMask from 'react-input-mask'
 
 import FileUpload from '@/components/file-upload'
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from '@/components/ui/command'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ptBR } from 'date-fns/locale'
 import { useRouter } from 'next/navigation'
@@ -32,20 +39,39 @@ import * as z from 'zod'
 const FormSchema = z.object({
   name: z.string().min(1, { message: 'Nome do evento é obrigatório' }),
   description: z.string().min(1, { message: 'Descrição é obrigatória' }),
-  date: z.date({
-    required_error: 'A data do evento é obrigatória.',
-  }),
+  date: z.date({ required_error: 'A data do evento é obrigatória.' }),
   time: z
     .string()
-    .min(1, { message: 'Horário do evento é obrigatório' })
-    .refine((value) => /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(value), {
+    .min(1, { message: 'Campo obrigatório' })
+    .refine((value) => value >= '00:00' && value <= '23:59', {
       message: 'Horário inválido',
     }),
-  location: z.string().min(1, { message: 'Localização é obrigatória' }),
+  address: z.object({
+    location: z.string().min(1, { message: 'Local é obrigatório' }),
+    street: z.string().min(1, { message: 'Rua é obrigatória' }),
+    number: z
+      .string()
+      .min(1, { message: 'Campo obrigatório' })
+      .refine((value) => !isNaN(Number(value)), { message: 'Campo inválido' }),
+    district: z.string().min(1, { message: 'Bairro é obrigatório' }),
+    city: z.string().min(1, { message: 'Cidade é obrigatória' }),
+    state: z.string().min(1, { message: 'Estado é obrigatório' }),
+    zip: z.string().min(1, { message: 'CEP é obrigatório' }),
+  }),
   link: z.string().min(1, { message: 'Link para ingresso é obrigatório' }),
   category: z.string().min(1, { message: 'Categoria é obrigatória' }),
   imageUrl: z.string().min(1, { message: 'O banner é obrigatório' }),
 })
+
+const categories = [
+  { label: 'Festa', value: 'party' },
+  { label: 'Show', value: 'show' },
+  { label: 'Teatro', value: 'theater' },
+  { label: 'Cinema', value: 'cinema' },
+  { label: 'Esporte', value: 'sport' },
+  { label: 'Cultura', value: 'culture' },
+  { label: 'Outro', value: 'other' },
+] as const
 
 export default function EventRegisterPage() {
   const router = useRouter()
@@ -56,7 +82,15 @@ export default function EventRegisterPage() {
       name: '',
       description: '',
       time: '',
-      location: '',
+      address: {
+        location: '',
+        street: '',
+        number: '',
+        district: '',
+        city: '',
+        state: '',
+        zip: '',
+      },
       link: '',
       category: '',
       imageUrl: '',
@@ -80,7 +114,7 @@ export default function EventRegisterPage() {
   }
 
   return (
-    <section className='container mb-8 flex flex-col justify-center items-center '>
+    <section className='container py-8 flex flex-col justify-center items-center'>
       <h1 className='text-lg font-semibold mb-8'>Cadastrar evento</h1>
 
       <Form {...form}>
@@ -94,7 +128,7 @@ export default function EventRegisterPage() {
             render={({ field }) => (
               <FormItem className='flex flex-col'>
                 <FormLabel className='text-xs font-bold uppercase'>
-                  banner do evento
+                  banner
                 </FormLabel>
 
                 <FormControl>
@@ -116,7 +150,7 @@ export default function EventRegisterPage() {
             render={({ field }) => (
               <FormItem className='flex flex-col'>
                 <FormLabel className='text-xs font-bold uppercase'>
-                  Nome do evento
+                  Nome
                 </FormLabel>
 
                 <FormControl>
@@ -137,9 +171,9 @@ export default function EventRegisterPage() {
               control={form.control}
               name='date'
               render={({ field }) => (
-                <FormItem className='flex flex-col w-full md:flex-1'>
+                <FormItem className='flex flex-col flex-1'>
                   <FormLabel className='text-xs font-bold uppercase'>
-                    Data do evento
+                    Data
                   </FormLabel>
 
                   <Popover>
@@ -193,7 +227,7 @@ export default function EventRegisterPage() {
                     <InputMask
                       mask='99:99'
                       placeholder='00:00'
-                      className='flex h-10 w-[75px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:!ring-primary disabled:cursor-not-allowed disabled:opacity-50'
+                      className='flex h-10 w-[100px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:!ring-primary disabled:cursor-not-allowed disabled:opacity-50'
                       value={field.value}
                       onChange={field.onChange}
                     />
@@ -207,11 +241,11 @@ export default function EventRegisterPage() {
 
           <FormField
             control={form.control}
-            name='location'
+            name='address.location'
             render={({ field }) => (
               <FormItem className='flex flex-col'>
                 <FormLabel className='text-xs font-bold uppercase'>
-                  Localização
+                  Local
                 </FormLabel>
 
                 <FormControl>
@@ -221,6 +255,206 @@ export default function EventRegisterPage() {
                     {...field}
                   />
                 </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <div className='flex gap-4'>
+            <FormField
+              control={form.control}
+              name='address.street'
+              render={({ field }) => (
+                <FormItem className='flex flex-col flex-1'>
+                  <FormLabel className='text-xs font-bold uppercase'>
+                    Rua
+                  </FormLabel>
+
+                  <FormControl>
+                    <Input
+                      disabled={isLoading}
+                      placeholder='Insira o rua do local do evento'
+                      {...field}
+                    />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name='address.number'
+              render={({ field }) => (
+                <FormItem className='flex flex-col w-[100px]'>
+                  <FormLabel className='text-xs font-bold uppercase'>
+                    Número
+                  </FormLabel>
+
+                  <FormControl>
+                    <Input disabled={isLoading} {...field} />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <FormField
+            control={form.control}
+            name='address.district'
+            render={({ field }) => (
+              <FormItem className='flex flex-col'>
+                <FormLabel className='text-xs font-bold uppercase'>
+                  Bairro
+                </FormLabel>
+
+                <FormControl>
+                  <Input
+                    disabled={isLoading}
+                    placeholder='Insira o bairro do local do evento'
+                    {...field}
+                  />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <div className='flex gap-4'>
+            <FormField
+              control={form.control}
+              name='address.city'
+              render={({ field }) => (
+                <FormItem className='flex flex-col flex-1'>
+                  <FormLabel className='text-xs font-bold uppercase'>
+                    Cidade
+                  </FormLabel>
+
+                  <FormControl>
+                    <Input
+                      disabled={isLoading}
+                      placeholder='Insira a cidade em que ocorrerá o evento'
+                      {...field}
+                    />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name='address.state'
+              render={({ field }) => (
+                <FormItem className='flex flex-col'>
+                  <FormLabel className='text-xs font-bold uppercase'>
+                    Estado
+                  </FormLabel>
+
+                  <FormControl>
+                    <InputMask
+                      mask='aa'
+                      placeholder='PR'
+                      className='flex h-10 w-[100px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:!ring-primary disabled:cursor-not-allowed disabled:opacity-50'
+                      value={field.value}
+                      onChange={field.onChange}
+                    />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <FormField
+            control={form.control}
+            name='address.zip'
+            render={({ field }) => (
+              <FormItem className='flex flex-col'>
+                <FormLabel className='text-xs font-bold uppercase'>
+                  CEP
+                </FormLabel>
+
+                <FormControl>
+                  <InputMask
+                    mask='99999-999'
+                    placeholder='00000-000'
+                    className='flex h-10 w-[250px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:!ring-primary disabled:cursor-not-allowed disabled:opacity-50'
+                    value={field.value}
+                    onChange={field.onChange}
+                  />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name='category'
+            render={({ field }) => (
+              <FormItem className='flex flex-col'>
+                <FormLabel className='text-xs font-bold uppercase'>
+                  Categoria do evento
+                </FormLabel>
+
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        variant='outline'
+                        role='combobox'
+                        className={cn(
+                          'w-full max-w-xs justify-between',
+                          !field.value && 'text-muted-foreground'
+                        )}
+                      >
+                        {field.value
+                          ? categories.find(
+                              (category) => category.value === field.value
+                            )?.label
+                          : 'Selecione uma categoria'}
+
+                        <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className='w-full max-w-xs p-0'>
+                    <Command>
+                      <CommandInput placeholder='Procurar categoria...' />
+                      <CommandEmpty>Nenhuma categoria encontrada.</CommandEmpty>
+                      <CommandGroup>
+                        {categories.map((category) => (
+                          <CommandItem
+                            value={category.label}
+                            key={category.value}
+                            onSelect={() => {
+                              form.setValue('category', category.value)
+                            }}
+                          >
+                            <Check
+                              className={cn(
+                                'mr-2 h-4 w-4',
+                                category.value === field.value
+                                  ? 'opacity-100'
+                                  : 'opacity-0'
+                              )}
+                            />
+                            {category.label}
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
 
                 <FormMessage />
               </FormItem>
@@ -240,28 +474,6 @@ export default function EventRegisterPage() {
                   <Input
                     disabled={isLoading}
                     placeholder='Link para ingresso'
-                    {...field}
-                  />
-                </FormControl>
-
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name='category'
-            render={({ field }) => (
-              <FormItem className='flex flex-col'>
-                <FormLabel className='text-xs font-bold uppercase'>
-                  Categoria do evento
-                </FormLabel>
-
-                <FormControl>
-                  <Input
-                    disabled={isLoading}
-                    placeholder='Qual o categoria do evento?'
                     {...field}
                   />
                 </FormControl>
@@ -297,7 +509,7 @@ export default function EventRegisterPage() {
             type='submit'
             className='block w-full max-w-md mx-auto shadow'
           >
-            Cadastrar evento
+            Publicar evento
           </Button>
         </form>
       </Form>

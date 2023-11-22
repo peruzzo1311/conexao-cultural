@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server'
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json()
+    const { address, ...body } = await req.json()
     const profile = await currentProfile()
 
     if (!profile) {
@@ -14,7 +14,16 @@ export async function POST(req: Request) {
     const event = await db.event.create({
       data: {
         ...body,
-        profileId: profile.id,
+        address: {
+          create: {
+            ...address,
+          },
+        },
+        profile: {
+          connect: {
+            id: profile.id,
+          },
+        },
       },
     })
 

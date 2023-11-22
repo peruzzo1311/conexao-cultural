@@ -54,8 +54,22 @@ export default function Sidebar({ open, onOpenChange }: SidebarProps) {
                 pathname === '/my-account' && 'bg-primary font-semibold'
               )}
             >
-              <span className='text-lg text-black'>Cadastrar eventos</span>
+              <span className='text-lg text-black'>Minha conta</span>
             </Link>
+
+            {(pathname === '/my-account' || pathname === '/event-register') && (
+              <Link
+                href={'/event-register'}
+                onClick={() => onOpenChange(false)}
+                className={cn(
+                  'flex justify-start items-center w-full rounded-lg px-4 py-2 bg-primary-50',
+                  // @ts-ignore
+                  pathname === '/event-register' && 'bg-primary font-semibold'
+                )}
+              >
+                <span className='text-lg text-black'>Cadastrar eventos</span>
+              </Link>
+            )}
           </SheetDescription>
         </SheetHeader>
       </SheetContent>
