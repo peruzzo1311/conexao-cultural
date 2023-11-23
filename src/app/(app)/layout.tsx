@@ -12,7 +12,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
     <div className='flex flex-col min-h-screen'>
       <Appbar />
 
-      <section className='flex-1 flex flex-col mt-20'>
+      <section className='flex-1 flex flex-col my-4'>
         <Suspense fallback={<Loading />}>{children}</Suspense>
       </section>
 

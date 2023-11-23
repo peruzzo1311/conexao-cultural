@@ -1,7 +1,8 @@
 import { db } from '@/lib/db'
+import { Profile } from '@/types'
 import { currentUser, redirectToSignIn } from '@clerk/nextjs'
 
-export async function initialProfile() {
+export async function initialProfile(): Promise<Profile> {
   const user = await currentUser()
 
   if (!user) {

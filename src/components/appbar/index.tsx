@@ -1,17 +1,24 @@
 'use client'
 
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import AppbarInput from './input'
-import AppbarLogo from './logo'
+import logo from '@/assets/logo.png'
 import Navigation from './navigation'
 import NavigationMobile from './navigation-mobile'
+import Image from 'next/image'
 
 export default function Appbar() {
   const pathname = usePathname()
+  const router = useRouter()
 
   return (
-    <header className='w-full flex fixed justify-between items-center p-4 z-50 bg-white md:container'>
-      <AppbarLogo />
+    <header className='w-full flex justify-between items-center p-4 z-50 bg-white container'>
+      <div
+        className='w-[125px] cursor-pointer'
+        onClick={() => router.push('/')}
+      >
+        <Image src={logo} alt='Conexão Cultural' />
+      </div>
 
       {pathname === '/' && <AppbarInput />}
 

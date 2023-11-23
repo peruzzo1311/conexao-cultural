@@ -34,3 +34,19 @@ export async function POST(req: Request) {
     return new NextResponse('Internal Error', { status: 500 })
   }
 }
+
+export async function GET() {
+  try {
+    const events = await db.event.findMany({
+      include: {
+        address: true,
+      },
+    })
+
+    return NextResponse.json(events, { status: 200 })
+  } catch (error) {
+    console.log(error)
+
+    return new NextResponse('Internal Error', { status: 500 })
+  }
+}

@@ -7,9 +7,18 @@ import banner from '@/assets/image-card.jpg'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { Suspense } from 'react'
+import { redirect } from 'next/navigation'
 
 export default async function MyAccount() {
   const profile = await initialProfile()
+
+  if (!profile) {
+    return redirect('/')
+  }
+
+  if (profile.admin) {
+    return redirect('/admin-panel')
+  }
 
   return (
     <Suspense>
@@ -36,10 +45,6 @@ export default async function MyAccount() {
                   <GroupTag group='Teatro' />
 
                   <div className='absolute right-2 top-2 flex gap-2'>
-                    <div className='p-1 bg-white hover:bg-green-500 hover:text-white rounded-full cursor-pointer transition'>
-                      <Check className='w-5 h-5' />
-                    </div>
-
                     <div className='p-1 bg-white hover:bg-red-500 hover:text-white rounded-full cursor-pointer transition'>
                       <X className='w-5 h-5' />
                     </div>
