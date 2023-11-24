@@ -1,5 +1,3 @@
-'use client'
-
 import { Sheet, SheetContent } from '@/components/ui/sheet'
 import { ArrowRight, Calendar, MapPin } from 'lucide-react'
 import Image from 'next/image'
@@ -79,10 +77,10 @@ export default function ModalDetails({
         </div>
 
         <Button
-          className='font-bold justify-between h-14 rounded-full'
+          className='justify-between h-14 rounded-full'
           onClick={() => onOpenChange(false)}
         >
-          <p className='text-white text-xl'>Ingresso</p>
+          <p className='text-white text-lg font-semibold uppercase'>Ingresso</p>
 
           <div className='py-2 px-4 rounded-full bg-white'>
             <ArrowRight className='w-6 h-6' />
