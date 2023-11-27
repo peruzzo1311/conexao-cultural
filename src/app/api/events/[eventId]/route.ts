@@ -16,7 +16,7 @@ export async function PATCH(
 
     const event = await db.event.update({
       where: { id: params.eventId },
-      data: { highlight, published: true },
+      data: { highlight: highlight, published: true },
     })
 
     return NextResponse.json(event)
