@@ -1,13 +1,8 @@
 import Carousel from '@/components/carousel'
 import { db } from '@/lib/db'
-import { Prisma } from '@prisma/client'
 
 export default async function Home() {
-  const events: Prisma.EventGetPayload<{
-    include: {
-      address: true
-    }
-  }>[] = await db.event.findMany({
+  const events = await db.event.findMany({
     orderBy: {
       createdAt: 'desc',
     },
