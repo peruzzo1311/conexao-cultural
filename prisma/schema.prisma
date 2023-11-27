@@ -43,7 +43,7 @@ model Event {
   imageUrl    String   @db.Text
   date        DateTime
   time        String
-  link        String   @db.Text
+  link        String   @db.LongText
   category    String
   published   Boolean  @default(false)
   highlight   Boolean  @default(false)
