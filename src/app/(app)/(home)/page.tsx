@@ -12,10 +12,12 @@ export default async function Home() {
   })
 
   const normalEvents = events.filter(
+    // @ts-ignore
     (event) => event.published && !event.highlight
   )
 
   const featuredEvents = events.filter(
+    // @ts-ignore
     (event) => event.published && event.highlight
   )
 
