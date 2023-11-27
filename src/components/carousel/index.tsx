@@ -3,7 +3,7 @@
 import 'swiper/css'
 import 'swiper/css/pagination'
 
-import { Prisma } from '@prisma/client'
+import { Event, Prisma } from '@prisma/client'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { ArrowUpRight } from 'lucide-react'
@@ -39,16 +39,20 @@ export default function Carousel({
   breakpoints,
   featured = false,
 }: CarouselProps) {
+  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null)
   const [openModal, setOpenModal] = useState(false)
+
+  const handleClick = (event: Event) => {
+    setOpenModal(true)
+    setSelectedEvent(event)
+  }
 
   if (events.length === 0 || !events) {
     return (
       <div className='md:-mb-8'>
         <p className='text-lg font-medium'>{title}</p>
 
-        <div className='text-gray-500 ml-4 mt-4'>
-          Nenhum evento para aprovação
-        </div>
+        <div className='text-gray-500 ml-4 mt-4'>Nenhum evento disponível</div>
       </div>
     )
   }
@@ -68,8 +72,12 @@ export default function Carousel({
 
         {!featured &&
           events.map((event) => (
-            <SwiperSlide key={event.id} className='mt-16'>
-              <Card className='rounded-xl overflow-hidden relative w-full'>
+            <SwiperSlide
+              key={event.id}
+              className='mt-16'
+              onClick={() => handleClick(event)}
+            >
+              <Card className='rounded-xl overflow-hidden relative w-full cursor-pointer'>
                 <CardContent
                   style={{
                     backgroundImage: `url(${event.imageUrl})`,
@@ -141,7 +149,12 @@ export default function Carousel({
           ))}
       </Swiper>
 
-      <ModalDetails open={openModal} onOpenChange={setOpenModal} />
+      <ModalDetails
+        // @ts-ignore
+        event={selectedEvent}
+        open={openModal}
+        onOpenChange={setOpenModal}
+      />
     </>
   )
 }

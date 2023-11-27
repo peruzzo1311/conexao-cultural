@@ -23,8 +23,8 @@ export default function PublishedEvents({ events }: PublishedEventsProps) {
   return (
     <>
       {events.map((event) => (
-        <div key={event.id} className='relative w-full max-w-[300px]'>
-          {pathname === 'admin-panel' && <DeleteEvent eventId={event.id} />}
+        <div key={event.id} className='relative w-full max-w-[300px] mx-auto'>
+          {pathname === '/admin-panel' && <DeleteEvent eventId={event.id} />}
 
           <Card className='rounded-xl overflow-hidden relative w-full'>
             <CardContent

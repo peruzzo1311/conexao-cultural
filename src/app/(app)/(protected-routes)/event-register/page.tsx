@@ -512,7 +512,7 @@ export default function EventRegisterPage() {
             disabled={isLoading}
           >
             {isLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
-            Publicar evento
+            {isLoading ? 'Cadastrar...' : 'Cadastrar evento'}
           </Button>
         </form>
       </Form>

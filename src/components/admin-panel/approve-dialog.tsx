@@ -17,6 +17,7 @@ import { useRouter } from 'next/navigation'
 import qs from 'query-string'
 import { useEffect, useState } from 'react'
 import { Label } from '../ui/label'
+import { Separator } from '../ui/separator'
 import { Switch } from '../ui/switch'
 
 type ApproveAlertDialogProps = {
@@ -88,8 +89,8 @@ export default function ApproveAlertDialog({
   return (
     <AlertDialog open={open} onOpenChange={openChange}>
       {event && (
-        <AlertDialogContent className='overflow-y-scroll h-[95%]'>
-          <AlertDialogHeader className='flex flex-col gap-2'>
+        <AlertDialogContent className='h-[100%] md:h-[90%] w-full'>
+          <AlertDialogHeader className='flex flex-col gap-2 text-left overflow-x-hidden overflow-y-scroll scrollbar-hide'>
             <AlertDialogTitle className='flex justify-between items-center'>
               <p>{event.name}</p>
 
@@ -110,6 +111,7 @@ export default function ApproveAlertDialog({
                 className='rounded-xl'
               />
             </div>
+            <Separator />
 
             <div className='flex gap-2'>
               <Switch
@@ -123,6 +125,8 @@ export default function ApproveAlertDialog({
               </Label>
             </div>
 
+            <Separator />
+
             <div>
               <Label className='font-semibold text-sm uppercase'>
                 Descrição
@@ -132,7 +136,9 @@ export default function ApproveAlertDialog({
               </p>
             </div>
 
-            <div className='columns-2'>
+            <Separator />
+
+            <div className='flex flex-col gap-4'>
               <div>
                 <Label className='font-semibold text-sm uppercase'>
                   Data do evento
@@ -150,6 +156,8 @@ export default function ApproveAlertDialog({
               </div>
             </div>
 
+            <Separator />
+
             <div>
               <Label className='font-semibold text-sm uppercase'>Local</Label>
               <p className='text-muted-foreground'>{event.address.location}</p>
@@ -162,13 +170,27 @@ export default function ApproveAlertDialog({
               <p className='text-muted-foreground'>{`${event.address.street}, ${event.address.number} - ${event.address.city} - ${event.address.state}`}</p>
             </div>
 
+            <Separator />
+
             <div>
               <Label className='font-semibold text-sm uppercase'>
                 Categoria
               </Label>
               <p className='text-muted-foreground'>{event.category}</p>
             </div>
+
+            <Separator />
+
+            <div>
+              <Label className='font-semibold text-sm uppercase'>
+                Link para compra do ingresso
+              </Label>
+              <p className='text-muted-foreground'>{event.link}</p>
+            </div>
+
+            <Separator />
           </AlertDialogHeader>
+
           <AlertDialogFooter>
             <AlertDialogCancel onClick={handleDelete} disabled={isLoading}>
               Excluir
@@ -180,7 +202,7 @@ export default function ApproveAlertDialog({
               onClick={handleApprove}
             >
               {isLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
-              Publicar
+              {isLoading ? 'Carregando...' : 'Publicar evento'}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
