@@ -46,7 +46,7 @@ export default async function AdminPanel() {
         <div className='ml-4 flex-1 columns-1 sm:columns-2 lg:columns-3 xl:columns-4'>
           <Suspense>
             {unpublishedEvents && (
-              <UnpublishedEvents events={unpublishedEvents} />
+              <UnpublishedEvents profile={profile} events={unpublishedEvents} />
             )}
 
             {unpublishedEvents.length === 0 && (
