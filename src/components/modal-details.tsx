@@ -54,7 +54,6 @@ export default function ModalDetails({
               className='rounded-xl'
             />
           </div>
-
           <div>
             <p className='text-2xl font-semibold'>{event.name}</p>
 
@@ -62,7 +61,6 @@ export default function ModalDetails({
               {event.description}
             </p>
           </div>
-
           <div className='flex flex-col gap-4 my-4'>
             <div className='w-full flex rounded-2xl overflow-hidden shadow-md'>
               <div className='flex justify-center items-center bg-orange p-2'>
@@ -89,20 +87,23 @@ export default function ModalDetails({
             </div>
           </div>
 
-          {!event.free && (
-            <Button
-              className='justify-between h-14 rounded-full'
-              onClick={handleRedirect}
-            >
-              <p className='text-white text-lg font-semibold uppercase'>
-                Ingresso
-              </p>
+          {
+            // @ts-ignore
+            !event.free && (
+              <Button
+                className='justify-between h-14 rounded-full'
+                onClick={handleRedirect}
+              >
+                <p className='text-white text-lg font-semibold uppercase'>
+                  Ingresso
+                </p>
 
-              <div className='py-2 px-4 rounded-full bg-white'>
-                <ArrowRight className='w-6 h-6' />
-              </div>
-            </Button>
-          )}
+                <div className='py-2 px-4 rounded-full bg-white'>
+                  <ArrowRight className='w-6 h-6' />
+                </div>
+              </Button>
+            )
+          }
         </SheetContent>
       </Sheet>
     )
