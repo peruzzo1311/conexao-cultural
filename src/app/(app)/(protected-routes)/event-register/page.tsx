@@ -19,7 +19,12 @@ import {
 import { Textarea } from '@/components/ui/textarea'
 import { cn } from '@/lib/utils'
 import { format } from 'date-fns'
-import { Calendar as CalendarIcon, Check, ChevronsUpDown } from 'lucide-react'
+import {
+  Calendar as CalendarIcon,
+  Check,
+  ChevronsUpDown,
+  Loader2,
+} from 'lucide-react'
 import InputMask from 'react-input-mask'
 
 import FileUpload from '@/components/file-upload'
@@ -64,13 +69,13 @@ const FormSchema = z.object({
 })
 
 const categories = [
-  { label: 'Festa', value: 'party' },
-  { label: 'Show', value: 'show' },
-  { label: 'Teatro', value: 'theater' },
-  { label: 'Cinema', value: 'cinema' },
-  { label: 'Esporte', value: 'sport' },
-  { label: 'Cultura', value: 'culture' },
-  { label: 'Outro', value: 'other' },
+  'Festa',
+  'Show',
+  'Teatro',
+  'Cinema',
+  'Esporte',
+  'Cultura',
+  'Outro',
 ] as const
 
 export default function EventRegisterPage() {
@@ -415,8 +420,8 @@ export default function EventRegisterPage() {
                       >
                         {field.value
                           ? categories.find(
-                              (category) => category.value === field.value
-                            )?.label
+                              (category) => category === field.value
+                            )
                           : 'Selecione uma categoria'}
 
                         <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
@@ -430,21 +435,21 @@ export default function EventRegisterPage() {
                       <CommandGroup>
                         {categories.map((category) => (
                           <CommandItem
-                            value={category.label}
-                            key={category.value}
+                            key={category}
+                            value={category}
                             onSelect={() => {
-                              form.setValue('category', category.value)
+                              form.setValue('category', category)
                             }}
                           >
                             <Check
                               className={cn(
                                 'mr-2 h-4 w-4',
-                                category.value === field.value
+                                category === field.value
                                   ? 'opacity-100'
                                   : 'opacity-0'
                               )}
                             />
-                            {category.label}
+                            {category}
                           </CommandItem>
                         ))}
                       </CommandGroup>
@@ -504,7 +509,9 @@ export default function EventRegisterPage() {
           <Button
             type='submit'
             className='block w-full max-w-md mx-auto shadow'
+            disabled={isLoading}
           >
+            {isLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
             Publicar evento
           </Button>
         </form>

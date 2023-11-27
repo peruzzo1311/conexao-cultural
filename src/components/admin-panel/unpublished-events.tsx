@@ -1,6 +1,7 @@
 'use client'
 
-import { initialProfile } from '@/lib/initial-profile'
+import { cn } from '@/lib/utils'
+import { Profile } from '@/types'
 import type { Event, Prisma } from '@prisma/client'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
@@ -16,19 +17,17 @@ type UnpublishedEventsProps = {
       address: true
     }
   }>[]
+  profile: Profile
 }
 
-export default function UnpublishedEvents({ events }: UnpublishedEventsProps) {
+export default function UnpublishedEvents({
+  events,
+  profile,
+}: UnpublishedEventsProps) {
   const [openApproveDialog, setOpenApproveDialog] = useState(false)
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null)
 
   const handleApprove = async (event: Event) => {
-    const profile = await initialProfile()
-
-    if (!profile.admin) {
-      return
-    }
-
     setSelectedEvent(event)
     setOpenApproveDialog(true)
   }
@@ -38,7 +37,11 @@ export default function UnpublishedEvents({ events }: UnpublishedEventsProps) {
       {events.map((event) => (
         <Card
           key={event.id}
-          className='rounded-xl overflow-hidden relative w-full max-w-[300px] mx-auto mb-4 cursor-pointer'
+          className={cn(
+            'rounded-xl overflow-hidden relative w-full max-w-[300px] mx-auto mb-4',
+            profile.admin && 'cursor-pointer',
+            !profile.admin && 'opacity-70 select-none'
+          )}
           onClick={() => handleApprove(event)}
         >
           <CardContent
@@ -69,11 +72,13 @@ export default function UnpublishedEvents({ events }: UnpublishedEventsProps) {
         </Card>
       ))}
 
-      <ApproveDialog
-        event={selectedEvent}
-        open={openApproveDialog}
-        openChange={setOpenApproveDialog}
-      />
+      {profile.admin && (
+        <ApproveDialog
+          event={selectedEvent}
+          open={openApproveDialog}
+          openChange={setOpenApproveDialog}
+        />
+      )}
     </>
   )
 }

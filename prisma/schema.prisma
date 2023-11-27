@@ -39,7 +39,7 @@ model Address {
 model Event {
   id          String   @id @default(uuid())
   name        String
-  description String
+  description String   @db.LongText
   imageUrl    String   @db.Text
   date        DateTime
   time        String
