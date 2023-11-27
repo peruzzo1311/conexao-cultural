@@ -12,7 +12,7 @@ export default function Navigation() {
   return (
     <>
       <div className='hidden md:flex justify-center items-center gap-1'>
-        {pathname === '/' && (
+        {/* {pathname === '/' && (
           <Button
             variant={'ghost'}
             size={'sm'}
@@ -22,7 +22,7 @@ export default function Navigation() {
           >
             Filtros
           </Button>
-        )}
+        )} */}
 
         <Button
           asChild
@@ -37,7 +37,7 @@ export default function Navigation() {
           <Link href={'/about'}>Sobre</Link>
         </Button>
 
-        {pathname !== '/my-account' && (
+        {pathname !== '/my-account' && pathname !== '/admin-panel' && (
           <Button
             asChild
             variant={'ghost'}
@@ -52,7 +52,7 @@ export default function Navigation() {
           </Button>
         )}
 
-        {pathname === '/my-account' && (
+        {(pathname === '/my-account' || pathname === '/admin-panel') && (
           <Button
             asChild
             variant={'ghost'}

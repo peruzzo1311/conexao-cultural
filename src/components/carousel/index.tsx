@@ -3,6 +3,9 @@
 import 'swiper/css'
 import 'swiper/css/pagination'
 
+import { Prisma } from '@prisma/client'
+import { format } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
 import { ArrowUpRight } from 'lucide-react'
 import { useState } from 'react'
 import { Pagination } from 'swiper/modules'
@@ -16,7 +19,11 @@ import CarouselTitle from './title'
 
 type CarouselProps = {
   title: string
-  items: string[]
+  events: Prisma.EventGetPayload<{
+    include: {
+      address: true
+    }
+  }>[]
   breakpoints?:
     | {
         [width: number]: SwiperOptions
@@ -28,11 +35,23 @@ type CarouselProps = {
 
 export default function Carousel({
   title,
-  items,
+  events,
   breakpoints,
   featured = false,
 }: CarouselProps) {
   const [openModal, setOpenModal] = useState(false)
+
+  if (events.length === 0 || !events) {
+    return (
+      <div className='md:-mb-8'>
+        <p className='text-lg font-medium'>{title}</p>
+
+        <div className='text-gray-500 ml-4 mt-4'>
+          Nenhum evento para aprovação
+        </div>
+      </div>
+    )
+  }
 
   return (
     <>
@@ -48,31 +67,30 @@ export default function Carousel({
         <CarouselTitle title={title} />
 
         {!featured &&
-          items.map((item, index) => (
-            <SwiperSlide key={index} className='mt-16'>
-              <Card
-                className='rounded-xl overflow-hidden relative w-[90%] md:w-[300px] min-w-[300px] mx-auto cursor-pointer'
-                onClick={() => setOpenModal(true)}
-              >
+          events.map((event) => (
+            <SwiperSlide key={event.id} className='mt-16'>
+              <Card className='rounded-xl overflow-hidden relative w-full'>
                 <CardContent
                   style={{
-                    backgroundImage: `url(${item})`,
+                    backgroundImage: `url(${event.imageUrl})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat',
                   }}
                   className='h-[250px]'
                 >
-                  <GroupTag group='Teatro' />
+                  <GroupTag group={event.category} />
                 </CardContent>
 
                 <CardFooter className='bg-orange text-white py-4 flex justify-start items-start flex-col gap-4'>
                   <span className='w-full text-lg font-semibold line-clamp-1'>
-                    Evento {index + 1}
+                    {event.name}
                   </span>
 
                   <div className='w-full flex justify-between items-center'>
-                    <span className='text-sm'>30 de novembro</span>
+                    <span className='text-sm'>
+                      {format(event.date, 'PPP', { locale: ptBR })}
+                    </span>
 
                     <ArrowUpRight className='w-6 h-6 inline-block ml-1' />
                   </div>
@@ -82,15 +100,15 @@ export default function Carousel({
           ))}
 
         {featured &&
-          items.map((item, index) => (
-            <SwiperSlide key={index} className='mt-14'>
+          events.map((event) => (
+            <SwiperSlide key={event.id} className='mt-14'>
               <Card
                 className='md:flex rounded-2xl overflow-hidden relative w-[90%] md:w-full md:h-[500px] mx-auto'
                 onClick={() => setOpenModal(true)}
               >
                 <CardContent
                   style={{
-                    backgroundImage: `url(${item})`,
+                    backgroundImage: `url(${event.imageUrl})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat',
@@ -103,10 +121,12 @@ export default function Carousel({
                 <CardFooter className='bg-primary text-white py-8 flex justify-between items-start flex-col gap-4 w-full md:w-[25%]'>
                   <div className='flex flex-col gap-4'>
                     <span className='w-full text-xl font-semibold line-clamp-1'>
-                      Evento {index + 1}
+                      {event.name}
                     </span>
 
-                    <div className='w-full text-base'>30 de novembro</div>
+                    <div className='w-full text-base'>
+                      {format(event.date, 'PPP', { locale: ptBR })}
+                    </div>
                   </div>
 
                   <Button className='bg-white w-full text-primary hover:bg-white active:scale-95 transition'>

@@ -1,5 +1,6 @@
 import PublishedEvents from '@/components/admin-panel/published-events'
 import { default as UnpublishedEvents } from '@/components/admin-panel/unpublished-events'
+import EventsEmpty from '@/components/events-empty'
 import { db } from '@/lib/db'
 import { initialProfile } from '@/lib/initial-profile'
 import { Prisma } from '@prisma/client'
@@ -18,14 +19,11 @@ export default async function AdminPanel() {
     return redirect('/my-account')
   }
 
-  const unpublishedEvents: Prisma.EventGetPayload<{
+  const events: Prisma.EventGetPayload<{
     include: {
       address: true
     }
   }>[] = await db.event.findMany({
-    where: {
-      published: false,
-    },
     orderBy: {
       createdAt: 'desc',
     },
@@ -34,21 +32,16 @@ export default async function AdminPanel() {
     },
   })
 
-  const publishedEvents: Prisma.EventGetPayload<{
-    include: {
-      address: true
-    }
-  }>[] = await db.event.findMany({
-    where: {
-      published: true,
-    },
-    orderBy: {
-      createdAt: 'desc',
-    },
-    include: {
-      address: true,
-    },
-  })
+  const unpublishedEvents = events.filter((event) => !event.published)
+
+  const publishedEvents = events.filter((event) => event.published)
+
+  if (unpublishedEvents.length === 0 && publishedEvents.length === 0)
+    return (
+      <section className='flex-1 flex justify-center items-center'>
+        <EventsEmpty />
+      </section>
+    )
 
   return (
     <section className='container flex-1 flex flex-col gap-8'>

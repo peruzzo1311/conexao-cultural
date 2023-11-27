@@ -1,17 +1,28 @@
-import imageCard from '@/assets/image-card.jpg'
 import Carousel from '@/components/carousel'
+import { db } from '@/lib/db'
+import { Prisma } from '@prisma/client'
 
 export default async function Home() {
-  const items = [
-    imageCard.src,
-    imageCard.src,
-    imageCard.src,
-    imageCard.src,
-    imageCard.src,
-    imageCard.src,
-    imageCard.src,
-    imageCard.src,
-  ]
+  const events: Prisma.EventGetPayload<{
+    include: {
+      address: true
+    }
+  }>[] = await db.event.findMany({
+    orderBy: {
+      createdAt: 'desc',
+    },
+    include: {
+      address: true,
+    },
+  })
+
+  const normalEvents = events.filter(
+    (event) => event.published && !event.highlight
+  )
+
+  const featuredEvents = events.filter(
+    (event) => event.published && event.highlight
+  )
 
   return (
     <section className='container'>
@@ -32,12 +43,16 @@ export default async function Home() {
               slidesPerGroup: 2,
             },
           }}
-          items={items}
+          events={normalEvents}
         />
       </div>
 
       <div className='my-8 md:my-16'>
-        <Carousel title='Eventos em destaque' items={items} featured />
+        <Carousel
+          title='Eventos em destaque'
+          events={featuredEvents}
+          featured
+        />
       </div>
     </section>
   )

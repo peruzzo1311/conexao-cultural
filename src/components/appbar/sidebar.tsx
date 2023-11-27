@@ -51,7 +51,8 @@ export default function Sidebar({ open, onOpenChange }: SidebarProps) {
               onClick={() => onOpenChange(false)}
               className={cn(
                 'flex justify-start items-center w-full rounded-lg px-4 py-2 bg-primary-50',
-                pathname === '/my-account' && 'bg-primary font-semibold'
+                (pathname === '/my-account' || pathname === '/admin-panel') &&
+                  'bg-primary font-semibold'
               )}
             >
               <span className='text-lg text-black'>Minha conta</span>

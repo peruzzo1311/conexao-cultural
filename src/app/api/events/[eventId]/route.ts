@@ -27,7 +27,10 @@ export async function PATCH(
   }
 }
 
-export async function DELETE({ params }: { params: { eventId: string } }) {
+export async function DELETE(
+  request: Request,
+  { params }: { params: { eventId: string } }
+) {
   try {
     const profile = await currentProfile()
 
@@ -37,6 +40,7 @@ export async function DELETE({ params }: { params: { eventId: string } }) {
 
     const event = await db.event.delete({
       where: { id: params.eventId },
+      include: { address: true },
     })
 
     return NextResponse.json(event)
