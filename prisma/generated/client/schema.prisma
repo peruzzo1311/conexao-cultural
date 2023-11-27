@@ -1,0 +1,62 @@
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/client"
+}
+
+model Profile {
+  id       String  @id @default(uuid())
+  userId   String  @unique
+  name     String
+  imageUrl String  @db.Text
+  email    String  @db.Text
+  admin    Boolean @default(false)
+
+  events Event[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Address {
+  id       String @id @default(uuid())
+  location String
+  street   String
+  number   String
+  district String
+  city     String
+  state    String
+  zip      String
+
+  Event Event[]
+}
+
+model Event {
+  id          String   @id @default(uuid())
+  name        String
+  description String
+  imageUrl    String   @db.Text
+  date        DateTime
+  time        String
+  link        String   @db.Text
+  category    String
+  published   Boolean  @default(false)
+  highlight   Boolean  @default(false)
+
+  profileId String
+  profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  addressId String
+  address   Address @relation(fields: [addressId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([profileId])
+  @@index([addressId])
+}
