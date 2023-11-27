@@ -112,7 +112,7 @@ export default function Carousel({
             <SwiperSlide key={event.id} className='mt-14'>
               <Card
                 className='md:flex rounded-2xl overflow-hidden relative w-[90%] md:w-full md:h-[500px] mx-auto'
-                onClick={() => setOpenModal(true)}
+                onClick={() => handleClick(event)}
               >
                 <CardContent
                   style={{

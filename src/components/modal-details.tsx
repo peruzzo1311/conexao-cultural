@@ -89,18 +89,20 @@ export default function ModalDetails({
             </div>
           </div>
 
-          <Button
-            className='justify-between h-14 rounded-full'
-            onClick={handleRedirect}
-          >
-            <p className='text-white text-lg font-semibold uppercase'>
-              Ingresso
-            </p>
+          {!event.free && (
+            <Button
+              className='justify-between h-14 rounded-full'
+              onClick={handleRedirect}
+            >
+              <p className='text-white text-lg font-semibold uppercase'>
+                Ingresso
+              </p>
 
-            <div className='py-2 px-4 rounded-full bg-white'>
-              <ArrowRight className='w-6 h-6' />
-            </div>
-          </Button>
+              <div className='py-2 px-4 rounded-full bg-white'>
+                <ArrowRight className='w-6 h-6' />
+              </div>
+            </Button>
+          )}
         </SheetContent>
       </Sheet>
     )

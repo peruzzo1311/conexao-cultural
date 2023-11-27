@@ -47,6 +47,7 @@ model Event {
   category    String
   published   Boolean  @default(false)
   highlight   Boolean  @default(false)
+  free        Boolean  @default(true)
 
   profileId String
   profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)

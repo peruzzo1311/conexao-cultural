@@ -35,6 +35,7 @@ import {
   CommandInput,
   CommandItem,
 } from '@/components/ui/command'
+import { Switch } from '@/components/ui/switch'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ptBR } from 'date-fns/locale'
 import { useRouter } from 'next/navigation'
@@ -63,7 +64,8 @@ const FormSchema = z.object({
     state: z.string().min(1, { message: 'Estado é obrigatório' }),
     zip: z.string().min(1, { message: 'CEP é obrigatório' }),
   }),
-  link: z.string().min(1, { message: 'Link para ingresso é obrigatório' }),
+  free: z.boolean().default(false),
+  link: z.string(),
   category: z.string().min(1, { message: 'Categoria é obrigatória' }),
   imageUrl: z.string().min(1, { message: 'O banner é obrigatório' }),
 })
@@ -96,6 +98,7 @@ export default function EventRegisterPage() {
         state: '',
         zip: '',
       },
+      free: false,
       link: '',
       category: '',
       imageUrl: '',
@@ -464,18 +467,17 @@ export default function EventRegisterPage() {
 
           <FormField
             control={form.control}
-            name='link'
+            name='free'
             render={({ field }) => (
               <FormItem className='flex flex-col'>
                 <FormLabel className='text-xs font-bold uppercase'>
-                  Link para compra do ingresso
+                  Evento gratuito
                 </FormLabel>
 
                 <FormControl>
-                  <Input
-                    disabled={isLoading}
-                    placeholder='Link para ingresso'
-                    {...field}
+                  <Switch
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
                   />
                 </FormControl>
 
@@ -483,6 +485,30 @@ export default function EventRegisterPage() {
               </FormItem>
             )}
           />
+
+          {!form.watch('free') && (
+            <FormField
+              control={form.control}
+              name='link'
+              render={({ field }) => (
+                <FormItem className='flex flex-col'>
+                  <FormLabel className='text-xs font-bold uppercase'>
+                    Link para compra do ingresso
+                  </FormLabel>
+
+                  <FormControl>
+                    <Input
+                      disabled={isLoading}
+                      placeholder='Link para ingresso'
+                      {...field}
+                    />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
 
           <FormField
             control={form.control}

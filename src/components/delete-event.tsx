@@ -50,7 +50,7 @@ export default function DeleteEvent({ eventId }: deleteEventProps) {
       <Button
         size={'sm'}
         variant={'destructive'}
-        className='absolute -top-2 -right-2 rounded-full h-6 w-6 p-0 flex justify-center items-center z-50'
+        className='absolute top-2 right-2 rounded-full h-6 w-6 p-0 flex justify-center items-center z-50'
         onClick={() => setOpenConfirmDialog(true)}
       >
         <X className='text-white h-4 w-4' />

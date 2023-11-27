@@ -197,7 +197,7 @@ export default function ApproveAlertDialog({
             </AlertDialogCancel>
 
             <AlertDialogAction
-              className='px-8 text-white font-semibold uppercase'
+              className='px-8 text-white font-semibold uppercase mt-2'
               disabled={isLoading}
               onClick={handleApprove}
             >
