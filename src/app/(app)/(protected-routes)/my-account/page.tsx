@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { db } from '@/lib/db'
 import { initialProfile } from '@/lib/initial-profile'
-import { Prisma } from '@prisma/client'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { ArrowUpRight, Plus } from 'lucide-react'
@@ -23,11 +22,7 @@ export default async function MyAccount() {
     return redirect('/admin-panel')
   }
 
-  const events: Prisma.EventGetPayload<{
-    include: {
-      address: true
-    }
-  }>[] = await db.event.findMany({
+  const events = await db.event.findMany({
     where: {
       profileId: profile.id,
     },

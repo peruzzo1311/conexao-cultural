@@ -3,7 +3,6 @@ import { default as UnpublishedEvents } from '@/components/admin-panel/unpublish
 import EventsEmpty from '@/components/events-empty'
 import { db } from '@/lib/db'
 import { initialProfile } from '@/lib/initial-profile'
-import { Prisma } from '@prisma/client'
 
 import { redirect } from 'next/navigation'
 import { Suspense } from 'react'
@@ -19,11 +18,7 @@ export default async function AdminPanel() {
     return redirect('/my-account')
   }
 
-  const events: Prisma.EventGetPayload<{
-    include: {
-      address: true
-    }
-  }>[] = await db.event.findMany({
+  const events = await db.event.findMany({
     orderBy: {
       createdAt: 'desc',
     },
