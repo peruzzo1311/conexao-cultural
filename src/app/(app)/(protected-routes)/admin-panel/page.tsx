@@ -31,7 +31,7 @@ export default async function AdminPanel() {
 
   const publishedEvents = events.filter((event) => event.published)
 
-  if (unpublishedEvents.length === 0 && publishedEvents.length === 0)
+  if (events.length === 0)
     return (
       <section className='flex-1 flex justify-center items-center'>
         <EventsEmpty />

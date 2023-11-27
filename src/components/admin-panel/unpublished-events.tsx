@@ -1,5 +1,6 @@
 'use client'
 
+import { initialProfile } from '@/lib/initial-profile'
 import type { Event, Prisma } from '@prisma/client'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
@@ -21,7 +22,13 @@ export default function UnpublishedEvents({ events }: UnpublishedEventsProps) {
   const [openApproveDialog, setOpenApproveDialog] = useState(false)
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null)
 
-  const handleApprove = (event: Event) => {
+  const handleApprove = async (event: Event) => {
+    const profile = await initialProfile()
+
+    if (!profile.admin) {
+      return
+    }
+
     setSelectedEvent(event)
     setOpenApproveDialog(true)
   }
@@ -63,7 +70,6 @@ export default function UnpublishedEvents({ events }: UnpublishedEventsProps) {
       ))}
 
       <ApproveDialog
-        // @ts-ignore
         event={selectedEvent}
         open={openApproveDialog}
         openChange={setOpenApproveDialog}

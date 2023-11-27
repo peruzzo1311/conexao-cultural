@@ -1,15 +1,13 @@
-import DeleteEvent from '@/components/delete-event'
+import PublishedEvents from '@/components/admin-panel/published-events'
+import UnpublishedEvents from '@/components/admin-panel/unpublished-events'
 import EventsEmpty from '@/components/events-empty'
-import GroupTag from '@/components/group-tag'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { db } from '@/lib/db'
 import { initialProfile } from '@/lib/initial-profile'
-import { format } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
-import { ArrowUpRight, Plus } from 'lucide-react'
+import { Plus } from 'lucide-react'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
+import { Suspense } from 'react'
 
 export default async function MyAccount() {
   const profile = await initialProfile()
@@ -42,44 +40,40 @@ export default async function MyAccount() {
     )
   }
 
+  const publishedEvents = events.filter((event) => event.published)
+
+  const unpublishedEvents = events.filter((event) => !event.published)
+
   return (
-    <section className='container flex-1 flex flex-col'>
-      <h1 className='text-lg font-semibold mb-4'>Seus eventos</h1>
+    <section className='container flex-1 flex flex-col gap-8'>
+      <div className='flex flex-col gap-2'>
+        <h1 className='text-lg font-semibold'>Esperando aprovação</h1>
 
-      <div className='flex-1 columns-1 sm:columns-2 lg:columns-3 xl:columns-4'>
-        {events.map((event) => (
-          <div key={event.id} className='relative w-full max-w-[300px]'>
-            <DeleteEvent eventId={event.id} />
+        <div className='ml-4 flex-1 columns-1 sm:columns-2 lg:columns-3 xl:columns-4'>
+          <Suspense>
+            {unpublishedEvents && (
+              <UnpublishedEvents events={unpublishedEvents} />
+            )}
 
-            <Card className='rounded-xl overflow-hidden relative w-full'>
-              <CardContent
-                style={{
-                  backgroundImage: `url(${event.imageUrl})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                  backgroundRepeat: 'no-repeat',
-                }}
-                className='h-[250px]'
-              >
-                <GroupTag group={event.category} />
-              </CardContent>
+            {unpublishedEvents.length === 0 && (
+              <div className='text-gray-500'>Nenhum evento para aprovação</div>
+            )}
+          </Suspense>
+        </div>
+      </div>
 
-              <CardFooter className='bg-orange text-white py-4 flex justify-start items-start flex-col gap-4'>
-                <span className='w-full text-lg font-semibold line-clamp-1'>
-                  {event.name}
-                </span>
+      <div className='flex flex-col gap-2'>
+        <h1 className='text-lg font-semibold'>Seus eventos</h1>
 
-                <div className='w-full flex justify-between items-center'>
-                  <span className='text-sm'>
-                    {format(event.date, 'PPP', { locale: ptBR })}
-                  </span>
+        <div className='ml-4 flex-1 columns-1 sm:columns-2 lg:columns-3 xl:columns-4'>
+          <Suspense>
+            {publishedEvents && <PublishedEvents events={publishedEvents} />}
 
-                  <ArrowUpRight className='w-6 h-6 inline-block ml-1' />
-                </div>
-              </CardFooter>
-            </Card>
-          </div>
-        ))}
+            {publishedEvents.length === 0 && (
+              <div className='text-gray-500'>Nenhum evento publicado</div>
+            )}
+          </Suspense>
+        </div>
       </div>
 
       <Button

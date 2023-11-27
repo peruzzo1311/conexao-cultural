@@ -11,9 +11,7 @@ interface FileUploadProps {
 }
 
 export default function FileUpload({ onChange, value }: FileUploadProps) {
-  const fileType = value?.split('.').pop()
-
-  if (value && fileType !== 'pdf') {
+  if (value) {
     return (
       <div className='relative w-full max-w-xs mx-auto h-40'>
         <Image

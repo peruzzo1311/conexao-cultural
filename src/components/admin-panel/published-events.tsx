@@ -1,9 +1,12 @@
+'use client'
+
 import GroupTag from '@/components/group-tag'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import type { Prisma } from '@prisma/client'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { ArrowUpRight } from 'lucide-react'
+import { usePathname } from 'next/navigation'
 import DeleteEvent from '../delete-event'
 
 type PublishedEventsProps = {
@@ -15,11 +18,13 @@ type PublishedEventsProps = {
 }
 
 export default function PublishedEvents({ events }: PublishedEventsProps) {
+  const pathname = usePathname()
+
   return (
     <>
       {events.map((event) => (
         <div key={event.id} className='relative w-full max-w-[300px]'>
-          <DeleteEvent eventId={event.id} />
+          {pathname === 'admin-panel' && <DeleteEvent eventId={event.id} />}
 
           <Card className='rounded-xl overflow-hidden relative w-full'>
             <CardContent
