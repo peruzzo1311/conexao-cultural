@@ -132,11 +132,7 @@ export default function EventRegisterPage() {
                 </FormLabel>
 
                 <FormControl>
-                  <FileUpload
-                    endpoint='eventImage'
-                    value={field.value}
-                    onChange={field.onChange}
-                  />
+                  <FileUpload value={field.value} onChange={field.onChange} />
                 </FormControl>
 
                 <FormMessage />

@@ -8,14 +8,9 @@ import Image from 'next/image'
 interface FileUploadProps {
   onChange: (url?: string) => void
   value: string
-  endpoint: 'eventImage'
 }
 
-export default function FileUpload({
-  onChange,
-  value,
-  endpoint,
-}: FileUploadProps) {
+export default function FileUpload({ onChange, value }: FileUploadProps) {
   const fileType = value?.split('.').pop()
 
   if (value && fileType !== 'pdf') {
@@ -43,7 +38,7 @@ export default function FileUpload({
 
   return (
     <UploadDropzone
-      endpoint={endpoint}
+      endpoint={'eventImage'}
       onClientUploadComplete={(res) => {
         onChange(res?.[0].url)
       }}
