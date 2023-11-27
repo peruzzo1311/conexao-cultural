@@ -91,15 +91,15 @@ export default function ApproveAlertDialog({
       {event && (
         <AlertDialogContent className='h-[100%] md:h-[90%] w-full'>
           <AlertDialogHeader className='flex flex-col gap-2 text-left overflow-x-hidden overflow-y-scroll scrollbar-hide'>
-            <AlertDialogTitle className='flex justify-between items-center'>
-              <p>{event.name}</p>
+            <button
+              className='text-muted-foreground absolute right-2 top-2 bg-white rounded-full p-1'
+              onClick={() => openChange(false)}
+            >
+              <X className='w-6 h-6' />
+            </button>
 
-              <button
-                className='text-muted-foreground'
-                onClick={() => openChange(false)}
-              >
-                <X className='w-6 h-6' />
-              </button>
+            <AlertDialogTitle>
+              <p>{event.name}</p>
             </AlertDialogTitle>
 
             <div>
