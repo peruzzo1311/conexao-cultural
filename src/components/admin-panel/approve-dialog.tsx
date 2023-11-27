@@ -9,7 +9,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
-import { Prisma } from '@prisma/client'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { Loader2, X } from 'lucide-react'
@@ -21,11 +20,7 @@ import { Label } from '../ui/label'
 import { Switch } from '../ui/switch'
 
 type ApproveAlertDialogProps = {
-  event: Prisma.EventGetPayload<{
-    include: {
-      address: true
-    }
-  }>
+  event: any
   open: boolean
   openChange: (open: boolean) => void
 }
