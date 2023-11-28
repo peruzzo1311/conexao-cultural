@@ -25,7 +25,7 @@ export default function PublishedEvents({ events }: PublishedEventsProps) {
       {events.map((event) => (
         <Card
           key={event.id}
-          className='rounded-xl overflow-hidden relative w-full max-w-[300px] mx-auto mb-4'
+          className='rounded-xl overflow-hidden relative w-full max-w-[275px] xl:max-w-[300px]'
         >
           {pathname === '/admin-panel' && <DeleteEvent eventId={event.id} />}
 

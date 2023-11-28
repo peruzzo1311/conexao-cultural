@@ -46,7 +46,7 @@ export default async function AdminPanel() {
       <div className='flex flex-col gap-2'>
         <h1 className='text-lg font-semibold'>Eventos para aprovação</h1>
 
-        <div className='flex-1 columns-1 sm:columns-2 lg:columns-3 xl:columns-4'>
+        <div className='flex-1 flex flex-wrap gap-2'>
           <Suspense>
             {unpublishedEvents && (
               <UnpublishedEvents profile={profile} events={unpublishedEvents} />
@@ -62,7 +62,7 @@ export default async function AdminPanel() {
       <div className='flex flex-col gap-2'>
         <h1 className='text-lg font-semibold'>Eventos publicados</h1>
 
-        <div className='flex-1 columns-1 sm:columns-2 lg:columns-3 xl:columns-4'>
+        <div className='flex-1 flex flex-wrap gap-2'>
           <Suspense>
             {publishedEvents && <PublishedEvents events={publishedEvents} />}
 

@@ -1,11 +1,11 @@
 'use client'
 
+import logo from '@/assets/logo.png'
+import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 import AppbarInput from './input'
-import logo from '@/assets/logo.png'
 import Navigation from './navigation'
 import NavigationMobile from './navigation-mobile'
-import Image from 'next/image'
 
 export default function Appbar() {
   const pathname = usePathname()
@@ -20,7 +20,10 @@ export default function Appbar() {
         <Image src={logo} alt='Conexão Cultural' />
       </div>
 
-      {pathname === '/' && <AppbarInput />}
+      {pathname !== '/about' &&
+        pathname !== '/admin-panel' &&
+        pathname !== '/event-register' &&
+        pathname !== '/my-account' && <AppbarInput />}
 
       <div className='!hidden md:!flex'>
         <Navigation />

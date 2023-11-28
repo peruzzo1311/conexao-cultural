@@ -49,7 +49,7 @@ export default async function MyAccount() {
       <div className='flex flex-col gap-2'>
         <h1 className='text-lg font-semibold'>Esperando aprovação</h1>
 
-        <div className='ml-4 flex-1 columns-1 sm:columns-2 lg:columns-3 xl:columns-4'>
+        <div className='flex-1 flex flex-wrap gap-2'>
           <Suspense>
             {unpublishedEvents && (
               <UnpublishedEvents profile={profile} events={unpublishedEvents} />
@@ -65,7 +65,7 @@ export default async function MyAccount() {
       <div className='flex flex-col gap-2'>
         <h1 className='text-lg font-semibold'>Seus eventos</h1>
 
-        <div className='ml-4 flex-1 columns-1 sm:columns-2 lg:columns-3 xl:columns-4'>
+        <div className='flex-1 flex flex-wrap gap-2'>
           <Suspense>
             {publishedEvents && <PublishedEvents events={publishedEvents} />}
 
