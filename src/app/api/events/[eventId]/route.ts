@@ -41,12 +41,22 @@ export async function DELETE(
       return new NextResponse('Unauthorized', { status: 401 })
     }
 
-    const event = await db.event.delete({
+    if (!params.eventId) {
+      return new NextResponse('Evento não encontrado', { status: 400 })
+    }
+
+    const deleteEvent = await db.event.delete({
       where: { id: params.eventId },
       include: { address: true },
     })
 
-    return NextResponse.json(event)
+    const deleteAddress = await db.address.delete({
+      where: {
+        id: deleteEvent.address.id,
+      },
+    })
+
+    return NextResponse.json(deleteEvent)
   } catch (error) {
     console.log(error)
 
