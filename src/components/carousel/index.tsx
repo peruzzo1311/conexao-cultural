@@ -110,7 +110,7 @@ export default function Carousel({
           events.map((event) => (
             <SwiperSlide key={event.id} className='mt-14'>
               <Card
-                className='md:flex rounded-2xl overflow-hidden relative w-full md:h-[500px] mx-auto'
+                className='md:flex rounded-2xl overflow-hidden relative w-full md:w-[90%] md:h-[500px] mx-auto'
                 onClick={() => handleClick(event)}
               >
                 <CardContent

@@ -1,5 +1,5 @@
 import logo from '@/assets/logo-branca.png'
-import { Facebook, Instagram, Twitter } from 'lucide-react'
+import { Instagram } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -20,13 +20,9 @@ export default function Footer() {
         </div>
 
         <div className='flex gap-6 md:gap-8'>
-          <Facebook className='md:w-8 md:h-8' />
-
           <Link href={'https://www.instagram.com/conexaoculturalcvel/'}>
             <Instagram className='md:w-8 md:h-8' />
           </Link>
-
-          <Twitter className='md:w-8 md:h-8' />
         </div>
       </div>
     </footer>

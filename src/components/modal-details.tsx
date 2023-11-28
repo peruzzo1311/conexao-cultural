@@ -44,14 +44,19 @@ export default function ModalDetails({
       <Sheet open={open} onOpenChange={onOpenChange} modal>
         <SheetContent
           side={screenWidth >= 1000 ? 'right' : 'bottom'}
-          className='pt-12 flex flex-col max-h-screen overflow-y-auto'
+          className={cn(
+            'pt-12 flex flex-col max-h-screen overflow-y-auto scrollbar-hide',
+            {
+              'h-[80%] rounded-xl': screenWidth < 1000,
+            }
+          )}
         >
           <Image
             src={event.imageUrl}
             alt={event.name}
             width={500}
             height={300}
-            className={cn('rounded-xl aspect-square mx-auto', {
+            className={cn('rounded-xl aspect-square mx-auto object-cover', {
               // @ts-ignore
               'aspect-video': event.highlight,
             })}
