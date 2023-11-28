@@ -12,6 +12,8 @@ export default function AppbarInput() {
   const handleSearch = useCallback(() => {
     if (search.length > 0) {
       router.push(`/search/${search}`)
+    } else {
+      router.push('/')
     }
   }, [router, search])
 
