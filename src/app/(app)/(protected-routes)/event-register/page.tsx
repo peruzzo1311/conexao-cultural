@@ -109,6 +109,8 @@ export default function EventRegisterPage() {
 
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
     try {
+      values.description = JSON.stringify(values.description)
+
       await fetch('/api/events', {
         method: 'POST',
         body: JSON.stringify(values),

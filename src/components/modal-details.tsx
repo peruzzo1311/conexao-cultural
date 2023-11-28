@@ -1,4 +1,5 @@
 import { Sheet, SheetContent } from '@/components/ui/sheet'
+import { cn } from '@/lib/utils'
 import { Prisma } from '@prisma/client'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
@@ -45,21 +46,26 @@ export default function ModalDetails({
           side={screenWidth >= 1000 ? 'right' : 'bottom'}
           className='pt-12 flex flex-col max-h-screen overflow-y-auto'
         >
-          <div>
-            <Image
-              src={event.imageUrl}
-              alt={event.name}
-              width={500}
-              height={300}
-              className='rounded-xl'
-            />
-          </div>
+          <Image
+            src={event.imageUrl}
+            alt={event.name}
+            width={500}
+            height={300}
+            className={cn('rounded-xl aspect-square mx-auto', {
+              'aspect-video': event.highlight,
+            })}
+          />
+
           <div>
             <p className='text-2xl font-semibold'>{event.name}</p>
 
-            <p className='text-sm text-muted-foreground md'>
-              {event.description}
-            </p>
+            {JSON.parse(event.description)
+              .split('\n')
+              .map((str: string) => (
+                <p key={str} className='text-sm text-muted-foreground md'>
+                  {str}
+                </p>
+              ))}
           </div>
           <div className='flex flex-col gap-4 my-4'>
             <div className='w-full flex rounded-2xl overflow-hidden shadow-md'>

@@ -19,36 +19,50 @@ export default async function Home() {
     (event) => event.published && event.highlight
   )
 
-  return (
-    <section className='container'>
-      <div className='w-full'>
-        <Carousel
-          title='Descubra eventos na sua região'
-          breakpoints={{
-            768: {
-              slidesPerView: 2,
-              slidesPerGroup: 1,
-            },
-            1000: {
-              slidesPerView: 3,
-              slidesPerGroup: 2,
-            },
-            1300: {
-              slidesPerView: 4,
-              slidesPerGroup: 2,
-            },
-          }}
-          events={normalEvents}
-        />
-      </div>
+  const categories = Array.from(new Set(events.map((event) => event.category)))
 
-      <div className='my-8 md:my-16'>
-        <Carousel
-          title='Eventos em destaque'
-          events={featuredEvents}
-          featured
-        />
-      </div>
+  return (
+    <section className='container space-y-16 my-4'>
+      {featuredEvents.length > 0 && (
+        <div className='w-full'>
+          <Carousel
+            title='Eventos em destaque'
+            events={featuredEvents}
+            featured
+          />
+        </div>
+      )}
+
+      {categories.map((category) => {
+        const eventsByCategory = normalEvents.filter(
+          (event) => event.category === category
+        )
+
+        if (eventsByCategory.length === 0) return null
+
+        return (
+          <div className='w-full' key={category}>
+            <Carousel
+              title={`${category}`}
+              breakpoints={{
+                768: {
+                  slidesPerView: 2,
+                  slidesPerGroup: 1,
+                },
+                1000: {
+                  slidesPerView: 3,
+                  slidesPerGroup: 2,
+                },
+                1300: {
+                  slidesPerView: 4,
+                  slidesPerGroup: 2,
+                },
+              }}
+              events={eventsByCategory}
+            />
+          </div>
+        )
+      })}
     </section>
   )
 }

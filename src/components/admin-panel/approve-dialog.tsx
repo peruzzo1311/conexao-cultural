@@ -131,9 +131,14 @@ export default function ApproveAlertDialog({
               <Label className='font-semibold text-sm uppercase'>
                 Descrição
               </Label>
-              <p className='text-muted-foreground'>
-                {event.description || 'Sem descrição'}
-              </p>
+
+              {JSON.parse(event.description)
+                .split('\n')
+                .map((str: string) => (
+                  <p key={str} className='text-muted-foreground'>
+                    {str}
+                  </p>
+                ))}
             </div>
 
             <Separator />
@@ -176,6 +181,7 @@ export default function ApproveAlertDialog({
               <Label className='font-semibold text-sm uppercase'>
                 Categoria
               </Label>
+
               <p className='text-muted-foreground'>{event.category}</p>
             </div>
 
@@ -197,7 +203,7 @@ export default function ApproveAlertDialog({
             </AlertDialogCancel>
 
             <AlertDialogAction
-              className='px-8 text-white font-semibold uppercase mt-2'
+              className='px-8 text-white font-semibold uppercase'
               disabled={isLoading}
               onClick={handleApprove}
             >

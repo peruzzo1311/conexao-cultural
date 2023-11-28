@@ -39,6 +39,7 @@ export default function Carousel({
   breakpoints,
   featured = false,
 }: CarouselProps) {
+  const [test, setTest] = useState('')
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null)
   const [openModal, setOpenModal] = useState(false)
 
@@ -74,10 +75,10 @@ export default function Carousel({
           events.map((event) => (
             <SwiperSlide
               key={event.id}
-              className='mt-16'
+              className='mt-12'
               onClick={() => handleClick(event)}
             >
-              <Card className='rounded-xl overflow-hidden relative w-full cursor-pointer'>
+              <Card className='rounded-xl overflow-hidden relative w-full max-w-[300px] mx-auto cursor-pointer'>
                 <CardContent
                   style={{
                     backgroundImage: `url(${event.imageUrl})`,
@@ -86,9 +87,7 @@ export default function Carousel({
                     backgroundRepeat: 'no-repeat',
                   }}
                   className='h-[250px]'
-                >
-                  <GroupTag group={event.category} />
-                </CardContent>
+                ></CardContent>
 
                 <CardFooter className='bg-orange text-white py-4 flex justify-start items-start flex-col gap-4'>
                   <span className='w-full text-lg font-semibold line-clamp-1'>
@@ -111,7 +110,7 @@ export default function Carousel({
           events.map((event) => (
             <SwiperSlide key={event.id} className='mt-14'>
               <Card
-                className='md:flex rounded-2xl overflow-hidden relative w-[90%] md:w-full md:h-[500px] mx-auto'
+                className='md:flex rounded-2xl overflow-hidden relative w-full md:h-[500px] mx-auto'
                 onClick={() => handleClick(event)}
               >
                 <CardContent
@@ -123,7 +122,7 @@ export default function Carousel({
                   }}
                   className='h-[300px] md:h-full md:w-[75%]'
                 >
-                  <GroupTag group='Teatro' />
+                  <GroupTag group={event.category} />
                 </CardContent>
 
                 <CardFooter className='bg-primary text-white py-8 flex justify-between items-start flex-col gap-4 w-full md:w-[25%]'>
