@@ -77,6 +77,7 @@ const categories = [
   'Cinema',
   'Esporte',
   'Cultura',
+  'Festival',
   'Outro',
 ] as const
 
