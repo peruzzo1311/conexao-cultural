@@ -52,6 +52,7 @@ export default function ModalDetails({
             width={500}
             height={300}
             className={cn('rounded-xl aspect-square mx-auto', {
+              // @ts-ignore
               'aspect-video': event.highlight,
             })}
           />

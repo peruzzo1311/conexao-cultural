@@ -524,7 +524,7 @@ export default function EventRegisterPage() {
                 <FormControl>
                   <Textarea
                     placeholder='Escreva uma pequena descrição sobre o evento'
-                    className='resize-none'
+                    className='h-40'
                     {...field}
                   />
                 </FormControl>
