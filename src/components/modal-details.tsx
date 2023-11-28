@@ -62,12 +62,21 @@ export default function ModalDetails({
 
             {JSON.parse(event.description)
               .split('\n')
-              .map((str: string) => (
-                <p key={str} className='text-sm text-muted-foreground md'>
-                  {str}
-                </p>
-              ))}
+              .map((str: string) => {
+                if (str === '' || str.length === 0) return null
+
+                return (
+                  <>
+                    <p key={str} className='text-sm text-muted-foreground md'>
+                      {str}
+                    </p>
+
+                    <br></br>
+                  </>
+                )
+              })}
           </div>
+
           <div className='flex flex-col gap-4 my-4'>
             <div className='w-full flex rounded-2xl overflow-hidden shadow-md'>
               <div className='flex justify-center items-center bg-orange p-2'>

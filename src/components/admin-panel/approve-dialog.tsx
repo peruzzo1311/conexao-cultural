@@ -134,11 +134,19 @@ export default function ApproveAlertDialog({
 
               {JSON.parse(event.description)
                 .split('\n')
-                .map((str: string) => (
-                  <p key={str} className='text-muted-foreground'>
-                    {str}
-                  </p>
-                ))}
+                .map((str: string) => {
+                  if (str === '' || str.length === 0) return null
+
+                  return (
+                    <>
+                      <p key={str} className='text-sm text-muted-foreground md'>
+                        {str}
+                      </p>
+
+                      <br></br>
+                    </>
+                  )
+                })}
             </div>
 
             <Separator />
@@ -197,17 +205,21 @@ export default function ApproveAlertDialog({
             <Separator />
           </AlertDialogHeader>
 
-          <AlertDialogFooter>
-            <AlertDialogCancel onClick={handleDelete} disabled={isLoading}>
+          <AlertDialogFooter className='flex items-center'>
+            <AlertDialogCancel
+              onClick={handleDelete}
+              disabled={isLoading}
+              className='mt-0'
+            >
               Excluir
             </AlertDialogCancel>
 
             <AlertDialogAction
-              className='px-8 text-white font-semibold uppercase'
+              className='px-8 text-white font-semibold uppercase flex gap-2 items-center mt-0'
               disabled={isLoading}
               onClick={handleApprove}
             >
-              {isLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
+              {isLoading && <Loader2 className='h-4 w-4 animate-spin' />}
               {isLoading ? 'Carregando...' : 'Publicar evento'}
             </AlertDialogAction>
           </AlertDialogFooter>

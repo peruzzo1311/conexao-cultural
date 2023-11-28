@@ -536,7 +536,7 @@ export default function EventRegisterPage() {
 
           <Button
             type='submit'
-            className='block w-full max-w-md mx-auto shadow'
+            className='w-full max-w-md mx-auto shadow flex gap-2 items-center'
             disabled={isLoading}
           >
             {isLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
